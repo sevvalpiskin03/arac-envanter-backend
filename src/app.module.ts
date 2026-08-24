@@ -9,6 +9,7 @@ import { UnitsModule } from './modules/units/units.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { ServiceRecordsModule } from './modules/service-records/service-records.module';
 import { MaintenanceAlertsModule } from './modules/maintenance-alerts/maintenance-alerts.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MaintenanceAlertsModule } from './modules/maintenance-alerts/maintenanc
     VehiclesModule,
     ServiceRecordsModule,
     MaintenanceAlertsModule,
+    ReportsModule,
     HealthModule,
   ],
 })
