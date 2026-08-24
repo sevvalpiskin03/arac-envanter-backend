@@ -47,6 +47,8 @@ Komut yalnızca sistemde hiç admin yokken çalışır. İlk admin oluşturulduk
 - `POST /api/v1/auth/login`: E-posta ve şifreyle JWT erişim anahtarı üretir.
 - `GET /api/v1/auth/me`: Bearer token ile giriş yapan adminin güvenli profilini döndürür.
 
+Şirket ve birim yönetimi endpoint'leri JWT ile korunur. Güncel istek/yanıt sözleşmeleri Swagger ekranından incelenebilir.
+
 ## Kontroller
 
 ```bash

@@ -7,8 +7,14 @@ Tüm uç noktalar `/api/v1` altında sürümlenir.
 - `POST /auth/login` — admin girişi
 - `GET /auth/me` — aktif admin profili
 - `/admins`
-- `/companies`
-- `/units`
+- `GET /companies` — şirketleri listeler
+- `GET /companies/:id` — şirket detayını getirir
+- `POST /companies` — şirket oluşturur
+- `PATCH /companies/:id` — şirketi günceller
+- `GET /companies/:companyId/units` — şirket birimlerini listeler
+- `POST /companies/:companyId/units` — şirkete birim ekler
+- `GET /units/:id` — birim detayını getirir
+- `PATCH /units/:id` — birimi günceller
 - `/vehicles`
 - `/vehicles/:vehicleId/mileage-records`
 - `/service-records`

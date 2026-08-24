@@ -4,6 +4,8 @@ import { HealthModule } from './modules/health/health.module';
 import { validateEnvironment } from './config/environment.validation';
 import { PrismaModule } from './database/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CompaniesModule } from './modules/companies/companies.module';
+import { UnitsModule } from './modules/units/units.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     PrismaModule,
     AuthModule,
+    CompaniesModule,
+    UnitsModule,
     HealthModule,
   ],
 })
