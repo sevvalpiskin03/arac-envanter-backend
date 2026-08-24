@@ -32,6 +32,21 @@ npm run start:dev
 
 API varsayılan olarak `http://localhost:3001/api/v1`, Swagger ise `http://localhost:3001/api/docs` adresinde çalışır.
 
+## İlk admin
+
+Veritabanı migration'ları çalıştırıldıktan sonra `.env` dosyasındaki `INITIAL_ADMIN_NAME`, `INITIAL_ADMIN_EMAIL` ve `INITIAL_ADMIN_PASSWORD` değerlerini ayarlayın:
+
+```bash
+npm run admin:create-initial
+```
+
+Komut yalnızca sistemde hiç admin yokken çalışır. İlk admin oluşturulduktan sonra `INITIAL_ADMIN_PASSWORD` değerini `.env` dosyasından kaldırın.
+
+## Kimlik doğrulama
+
+- `POST /api/v1/auth/login`: E-posta ve şifreyle JWT erişim anahtarı üretir.
+- `GET /api/v1/auth/me`: Bearer token ile giriş yapan adminin güvenli profilini döndürür.
+
 ## Kontroller
 
 ```bash
@@ -40,4 +55,3 @@ npm run lint
 npm test
 npm run build
 ```
-

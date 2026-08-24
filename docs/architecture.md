@@ -30,8 +30,9 @@ Her modül kendi controller, service, repository, DTO/validation ve testlerini b
 ## Güvenlik
 
 - Parolalar düz metin saklanmaz.
+- Parolalar Argon2 ile hashlenir.
+- Korumalı API uç noktaları kısa ömürlü JWT Bearer token kullanır.
 - Gizli anahtarlar ortam değişkenlerinden okunur.
 - Gerçek şirket verileri kaynak kod deposunda tutulmaz.
 - Yüklenen belgeler herkese açık klasörlerde saklanmaz.
 - Admin işlemleri denetlenebilir biçimde kaydedilir.
-
