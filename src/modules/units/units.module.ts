@@ -14,5 +14,6 @@ import { UnitsService } from './units.service';
     PrismaUnitRepository,
     { provide: UNIT_REPOSITORY, useExisting: PrismaUnitRepository },
   ],
+  exports: [UnitsService],
 })
 export class UnitsModule {}

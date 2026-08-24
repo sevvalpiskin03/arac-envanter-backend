@@ -15,7 +15,10 @@ Tüm uç noktalar `/api/v1` altında sürümlenir.
 - `POST /companies/:companyId/units` — şirkete birim ekler
 - `GET /units/:id` — birim detayını getirir
 - `PATCH /units/:id` — birimi günceller
-- `/vehicles`
+- `GET /vehicles` — araçları arama, şirket, birim, HGS ve bakım durumuna göre filtreler
+- `GET /vehicles/:id` — araç detayını getirir
+- `POST /vehicles` — envantere araç ekler
+- `PATCH /vehicles/:id` — araç bilgilerini günceller
 - `/vehicles/:vehicleId/mileage-records`
 - `/service-records`
 - `/maintenance-alerts`

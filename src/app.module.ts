@@ -6,6 +6,7 @@ import { PrismaModule } from './database/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { UnitsModule } from './modules/units/units.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UnitsModule } from './modules/units/units.module';
     AuthModule,
     CompaniesModule,
     UnitsModule,
+    VehiclesModule,
     HealthModule,
   ],
 })

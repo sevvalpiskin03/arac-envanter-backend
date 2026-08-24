@@ -49,6 +49,8 @@ Komut yalnızca sistemde hiç admin yokken çalışır. İlk admin oluşturulduk
 
 Şirket ve birim yönetimi endpoint'leri JWT ile korunur. Güncel istek/yanıt sözleşmeleri Swagger ekranından incelenebilir.
 
+Araç envanteri; plaka/marka/model araması, şirket, birim, HGS ve kilometre bazlı bakım durumu filtrelerini destekler.
+
 ## Kontroller
 
 ```bash
