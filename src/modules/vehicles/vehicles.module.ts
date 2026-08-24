@@ -15,5 +15,6 @@ import { VehiclesService } from './vehicles.service';
     PrismaVehicleRepository,
     { provide: VEHICLE_REPOSITORY, useExisting: PrismaVehicleRepository },
   ],
+  exports: [VehiclesService],
 })
 export class VehiclesModule {}
