@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OwnerType {
+  PERSON
+  COMPANY
+}
+
+enum ServiceType {
+  MAINTENANCE
+  REPAIR
+}
+
+enum NotificationType {
+  MAINTENANCE_APPROACHING
+  MAINTENANCE_OVERDUE
+}
+
+model Admin {
+  id              String          @id @default(uuid())
+  name            String
+  email           String          @unique
+  passwordHash    String
+  isActive        Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  mileageRecords  MileageRecord[]
+  serviceRecords  ServiceRecord[]
+}
+
+model Company {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  note      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  units     Unit[]
+  vehicles  Vehicle[]
+}
+
+model Unit {
+  id        String   @id @default(uuid())
+  name      String
+  companyId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Restrict)
+  vehicles  Vehicle[]
+
+  @@unique([companyId, name])
+  @@index([companyId])
+}
+
+model Vehicle {
+  id                       String            @id @default(uuid())
+  plate                    String            @unique
+  brand                    String
+  model                    String
+  modelYear                Int
+  vehicleType              String
+  currentMileage           Int
+  ownerType                OwnerType
+  registeredOwner          String
+  companyId                String
+  unitId                   String
+  hasHgs                   Boolean
+  lastMaintenanceMileage   Int?
+  nextMaintenanceMileage   Int?
+  note                     String?
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+  company                  Company           @relation(fields: [companyId], references: [id], onDelete: Restrict)
+  unit                     Unit              @relation(fields: [unitId], references: [id], onDelete: Restrict)
+  mileageRecords           MileageRecord[]
+  serviceRecords           ServiceRecord[]
+  notificationLogs         NotificationLog[]
+
+  @@index([companyId])
+  @@index([unitId])
+  @@index([nextMaintenanceMileage])
+}
+
+model MileageRecord {
+  id              String   @id @default(uuid())
+  vehicleId       String
+  previousMileage Int
+  newMileage      Int
+  recordedById    String
+  createdAt       DateTime @default(now())
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  recordedBy      Admin    @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@index([vehicleId, createdAt])
+}
+
+model ServiceRecord {
+  id                     String         @id @default(uuid())
+  vehicleId              String
+  type                   ServiceType
+  serviceDate            DateTime
+  mileageAtService       Int
+  performedWork          String
+  provider               String?
+  totalCost              Decimal        @db.Decimal(12, 2)
+  note                   String?
+  nextMaintenanceMileage Int?
+  createdById            String
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  vehicle                Vehicle        @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdBy              Admin          @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  replacedParts          ReplacedPart[]
+  attachments            Attachment[]
+
+  @@index([vehicleId, serviceDate])
+  @@index([type])
+}
+
+model ReplacedPart {
+  id              String        @id @default(uuid())
+  serviceRecordId String
+  name            String
+  note            String?
+  serviceRecord   ServiceRecord @relation(fields: [serviceRecordId], references: [id], onDelete: Cascade)
+
+  @@index([serviceRecordId])
+}
+
+model Attachment {
+  id              String        @id @default(uuid())
+  serviceRecordId String
+  originalName    String
+  storageKey      String        @unique
+  mimeType        String
+  sizeBytes       Int
+  createdAt       DateTime      @default(now())
+  serviceRecord   ServiceRecord @relation(fields: [serviceRecordId], references: [id], onDelete: Cascade)
+
+  @@index([serviceRecordId])
+}
+
+model NotificationSetting {
+  id                       String   @id @default(uuid())
+  warningMileageThreshold  Int      @default(1000)
+  emailEnabled             Boolean  @default(true)
+  recipientEmails          String[]
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
+
+model NotificationLog {
+  id              String           @id @default(uuid())
+  vehicleId       String
+  type            NotificationType
+  recipientEmail  String
+  mileageSnapshot Int
+  sentAt          DateTime         @default(now())
+  vehicle         Vehicle          @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId, type, sentAt])
+}
+
