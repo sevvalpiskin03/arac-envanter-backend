@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: arac-envanter-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vehicle_management
+      POSTGRES_USER: vehicle_app
+      POSTGRES_PASSWORD: vehicle_app_local_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - vehicle_management_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vehicle_app -d vehicle_management"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  vehicle_management_postgres_data:
