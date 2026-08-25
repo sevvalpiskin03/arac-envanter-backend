@@ -13,7 +13,8 @@
     "test:cov": "jest --coverage",
     "prisma:generate": "prisma generate",
     "prisma:validate": "prisma validate",
-    "admin:create-initial": "npm run build && node dist/src/scripts/create-initial-admin.js"
+    "admin:create-initial": "npm run build && node dist/src/scripts/create-initial-admin.js",
+    "seed:demo": "npm run build && node dist/src/scripts/seed-demo-data.js"
   },
   "jest": {
     "moduleFileExtensions": [
