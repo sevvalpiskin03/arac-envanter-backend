@@ -10,6 +10,7 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { ServiceRecordsModule } from './modules/service-records/service-records.module';
 import { MaintenanceAlertsModule } from './modules/maintenance-alerts/maintenance-alerts.module';
 import { ReportsModule } from './modules/reports/reports.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ReportsModule } from './modules/reports/reports.module';
       isGlobal: true,
       validate: validateEnvironment,
     }),
+    ScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
     CompaniesModule,

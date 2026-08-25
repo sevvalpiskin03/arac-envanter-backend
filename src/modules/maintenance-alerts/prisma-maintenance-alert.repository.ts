@@ -19,6 +19,10 @@ export class PrismaMaintenanceAlertRepository implements MaintenanceAlertReposit
   }
 
   async findAlerts(threshold: number): Promise<MaintenanceAlert[]> {
+    return (await this.findAllScheduled()).filter((alert) => alert.remainingMileage <= threshold);
+  }
+
+  async findAllScheduled(): Promise<MaintenanceAlert[]> {
     const vehicles = await this.prisma.vehicle.findMany({
       where: { nextMaintenanceMileage: { not: null } },
       include: { company: { select: { id: true, name: true } }, unit: { select: { id: true, name: true } } },
@@ -28,7 +32,6 @@ export class PrismaMaintenanceAlertRepository implements MaintenanceAlertReposit
       const next = vehicle.nextMaintenanceMileage;
       if (next === null) return [];
       const remainingMileage = next - vehicle.currentMileage;
-      if (remainingMileage > threshold) return [];
       return [{
         vehicleId: vehicle.id, plate: vehicle.plate, brand: vehicle.brand, model: vehicle.model,
         currentMileage: vehicle.currentMileage, nextMaintenanceMileage: next, remainingMileage,
@@ -36,6 +39,11 @@ export class PrismaMaintenanceAlertRepository implements MaintenanceAlertReposit
         company: vehicle.company, unit: vehicle.unit,
       }];
     });
+  }
+
+  async getRecipientEmails(): Promise<string[]> {
+    const admins = await this.prisma.admin.findMany({ where: { isActive: true }, select: { email: true } });
+    return admins.map((admin) => admin.email);
   }
 
   async wasSent(vehicleId: string, type: NotificationType, recipientEmail: string, mileageSnapshot: number) {
